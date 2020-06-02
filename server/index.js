@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const massive = require("massive");
 const session = require("express-session");
+const checkForSession = require('./middlewares/checkFroSession')
 const authCtrl = require('./controllers/authController');
 const app = express();
 
@@ -18,7 +19,7 @@ app.use(
 );
 
 app.post('/auth/register', authCtrl.register)
-app.post('/auth/login', authCtrl.login)
+app.post('/auth/login', checkForSession, authCtrl.login)
 app.delete('/auth/logout', authCtrl.logout)
 
 app.get('/session', (req, res) => {
